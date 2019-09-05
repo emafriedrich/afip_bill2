@@ -35,11 +35,11 @@ module AfipBill
     def generate_pdf_file
       tempfile = Tempfile.new("afip_bill.pdf")
 
-      PDFKit.new(template).to_file(tempfile.path)
+      pdfkit_template.to_file(tempfile.path)
     end
 
     def generate_pdf_string
-      PDFKit.new(template).to_pdf
+      pdfkit_template.to_pdf
     end
 
     private
@@ -63,6 +63,10 @@ module AfipBill
         cae: afip_bill["cae"],
         vto_cae: afip_bill["fch_vto_pago"]
       }
+    end
+
+    def pdfkit_template
+      PDFKit.new(template, dpi: 400, page_size: "A4", print_media_type: true, margin_bottom: "0.25in", margin_top: "0.25in", margin_left: "0.25in", margin_right: "0.25in", zoom: "1.1")
     end
 
     def template
